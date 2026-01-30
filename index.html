@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centro Multimedia</title>
+
+<style>
+:root {
+  --bg: #0f1115;
+  --card: #1b1e26;
+  --accent: #4da3ff;
+  --text: #ffffff;
+  --sub: #a0a0a0;
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px;
+}
+
+#title {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+#clock {
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* ===== GRID ===== */
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 50px;
+  width: 90%;
+  max-width: 1200px;
+}
+
+/* ===== APP CARD ===== */
+.app {
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.app:active {
+  transform: scale(0.94);
+}
+
+.icon {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #222633, #14171f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.4),
+    inset 0 0 0 4px rgba(255,255,255,0.03);
+}
+
+.icon img {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+}
+
+.label {
+  font-size: 26px;
+  font-weight: 500;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 14px;
+  font-size: 14px;
+  color: var(--sub);
+}
+
+/* ===== ANIM ===== */
+.fade-in {
+  animation: fade 0.8s ease forwards;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<header class="fade-in">
+  <div id="title">📺 Centro Multimedia</div>
+  <div id="clock">--:--</div>
+</header>
+
+<main>
+  <div class="grid fade-in">
+
+    <div class="app" onclick="openApp('com.movistarplus.android')">
+      <div class="icon">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Movistar_Plus%2B_Logo.svg">
+      </div>
+      <div class="label">Movistar+</div>
+    </div>
+
+    <div class="app" onclick="openApp('com.google.android.youtube')">
+      <div class="icon">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg">
+      </div>
+      <div class="label">YouTube</div>
+    </div>
+
+    <div class="app" onclick="openApp('com.netflix.mediaclient')">
+      <div class="icon">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg">
+      </div>
+      <div class="label">Netflix</div>
+    </div>
+
+    <div class="app" onclick="openApp('com.android.chrome')">
+      <div class="icon">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Google_Chrome_icon_%282011%29.png">
+      </div>
+      <div class="label">Internet</div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  Toque un icono para comenzar
+</footer>
+
+<script>
+/* ===== CLOCK ===== */
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2, '0');
+  const m = now.getMinutes().toString().padStart(2, '0');
+  document.getElementById('clock').textContent = `${h}:${m}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+/* ===== OPEN APP ===== */
+function openApp(pkg) {
+  if (window.fully) {
+    fully.startApplication(pkg);
+  } else {
+    alert("Fully Kiosk no detectado");
+  }
+}
+
+/* ===== PREVENT SLEEP ===== */
+if (window.fully) {
+  fully.keepScreenOn(true);
+}
+</script>
+
+</body>
+</html>
