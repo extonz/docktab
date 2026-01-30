@@ -3,191 +3,218 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Centro Multimedia</title>
+<title>Asistente Simplificado</title>
+
+<!-- Swiper.js CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
 
 <style>
 :root {
-  --bg: #0f1115;
-  --card: #1b1e26;
-  --accent: #4da3ff;
-  --text: #ffffff;
-  --sub: #a0a0a0;
+  --bg: #f0f4f8;
+  --panel: #ffffff;
+  --circle: #4da3ff;
+  --accent: #ffb347;
+  --text: #1a1a1a;
+  --sub: #555555;
 }
 
-* {
-  box-sizing: border-box;
-  user-select: none;
-}
+* { box-sizing: border-box; user-select: none; }
 
 body {
   margin: 0;
+  font-family: Arial, sans-serif;
   background: var(--bg);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text);
   height: 100vh;
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 header {
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 40px;
+  background: var(--panel);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-#title {
-  font-size: 36px;
-  font-weight: 600;
+header h1 { margin: 0; font-size: 28px; color: var(--accent);}
+#clock { font-size: 28px; color: var(--text); }
+
+/* SWIPER */
+.swiper {
+  width: 100%;
+  height: calc(100vh - 80px);
 }
 
-#clock {
-  font-size: 34px;
-  font-weight: 500;
-  letter-spacing: 1px;
-}
-
-/* ===== GRID ===== */
-main {
-  flex: 1;
+.swiper-slide {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  background: var(--panel);
+  border-radius: 20px;
+  margin: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
+/* GRID DE APPS */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 25px;
   width: 90%;
-  max-width: 1200px;
+  max-width: 1000px;
 }
 
-/* ===== APP CARD ===== */
-.app {
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.25s ease;
-}
-
-.app:active {
-  transform: scale(0.94);
-}
-
-.icon {
-  width: 180px;
-  height: 180px;
-  margin: 0 auto 16px;
+/* APP BUTTON */
+.app { text-align: center; cursor: pointer; }
+.app:active .circle { transform: scale(0.95); }
+.circle {
+  width: 140px; height: 140px;
+  margin: 0 auto 10px;
   border-radius: 50%;
-  background: linear-gradient(145deg, #222633, #14171f);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.4),
-    inset 0 0 0 4px rgba(255,255,255,0.03);
+  background: var(--circle);
+  display: flex; justify-content: center; align-items: center;
+  transition: transform 0.2s ease;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+.circle img { width: 60%; height: 60%; }
+.label { font-size: 20px; text-align: center; font-weight: bold; color: var(--text); }
+
+/* MIC */
+.mic {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex; justify-content: center; align-items: center;
+  font-size: 36px; color: #fff;
+  cursor: pointer;
+}
+.mic.listening { animation: pulse 1.2s infinite; }
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,179,71,0.6); }
+  70% { box-shadow: 0 0 0 25px rgba(255,179,71,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,179,71,0); }
 }
 
-.icon img {
-  width: 60%;
-  height: 60%;
-  object-fit: contain;
+/* PANEL TITLES */
+.panel-title {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: var(--accent);
 }
 
-.label {
-  font-size: 26px;
-  font-weight: 500;
-}
-
-/* ===== FOOTER ===== */
-footer {
+/* WIDGETS */
+.widget {
   text-align: center;
-  padding: 14px;
-  font-size: 14px;
-  color: var(--sub);
-}
-
-/* ===== ANIM ===== */
-.fade-in {
-  animation: fade 0.8s ease forwards;
-}
-
-@keyframes fade {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  font-size: 22px;
+  color: var(--text);
 }
 </style>
 </head>
 
 <body>
 
-<header class="fade-in">
-  <div id="title">📺 Centro Multimedia</div>
+<header>
+  <h1>🎨 Asistente</h1>
   <div id="clock">--:--</div>
 </header>
 
-<main>
-  <div class="grid fade-in">
+<div class="swiper">
+  <div class="swiper-wrapper">
 
-    <div class="app" onclick="openApp('com.movistarplus.android')">
-      <div class="icon">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Movistar_Plus%2B_Logo.svg">
+    <!-- PANEL 1: APPS PRINCIPALES -->
+    <div class="swiper-slide">
+      <div class="panel-title">Apps Principales</div>
+      <div class="grid">
+        <div class="app" onclick="openApp('com.movistarplus.android')">
+          <div class="circle"><img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Movistar_Plus%2B_Logo.svg"></div>
+          <div class="label">Fútbol</div>
+        </div>
+        <div class="app" onclick="openApp('com.google.android.youtube')">
+          <div class="circle"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"></div>
+          <div class="label">Vídeos</div>
+        </div>
+        <div class="app" onclick="openApp('com.netflix.mediaclient')">
+          <div class="circle"><img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"></div>
+          <div class="label">Películas</div>
+        </div>
       </div>
-      <div class="label">Movistar+</div>
     </div>
 
-    <div class="app" onclick="openApp('com.google.android.youtube')">
-      <div class="icon">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg">
-      </div>
-      <div class="label">YouTube</div>
+    <!-- PANEL 2: CLIMA Y FECHA -->
+    <div class="swiper-slide">
+      <div class="panel-title">Clima & Fecha</div>
+      <div class="widget" id="weather">☀️ 22°C Madrid</div>
+      <div class="widget" id="date">Lunes, 30 Enero 2026</div>
     </div>
 
-    <div class="app" onclick="openApp('com.netflix.mediaclient')">
-      <div class="icon">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg">
-      </div>
-      <div class="label">Netflix</div>
-    </div>
-
-    <div class="app" onclick="openApp('com.android.chrome')">
-      <div class="icon">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Google_Chrome_icon_%282011%29.png">
-      </div>
-      <div class="label">Internet</div>
+    <!-- PANEL 3: NOTICIAS -->
+    <div class="swiper-slide">
+      <div class="panel-title">Noticias</div>
+      <div class="widget">📰 Últimas noticias simplificadas</div>
     </div>
 
   </div>
-</main>
+</div>
 
-<footer>
-  Toque un icono para comenzar
-</footer>
+<div class="mic" id="mic">🎤</div>
 
+<!-- Swiper.js -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 <script>
-/* ===== CLOCK ===== */
-function updateClock() {
+/* CLOCK */
+function updateClock(){
   const now = new Date();
-  const h = now.getHours().toString().padStart(2, '0');
-  const m = now.getMinutes().toString().padStart(2, '0');
-  document.getElementById('clock').textContent = `${h}:${m}`;
+  document.getElementById('clock').textContent =
+    now.getHours().toString().padStart(2,'0')+":"+
+    now.getMinutes().toString().padStart(2,'0');
 }
-setInterval(updateClock, 1000);
+setInterval(updateClock,1000);
 updateClock();
 
-/* ===== OPEN APP ===== */
-function openApp(pkg) {
-  if (window.fully) {
-    fully.startApplication(pkg);
-  } else {
-    alert("Fully Kiosk no detectado");
-  }
+/* OPEN APP */
+function openApp(pkg){
+  location.href="fully://startapp?package="+pkg;
 }
 
-/* ===== PREVENT SLEEP ===== */
-if (window.fully) {
-  fully.keepScreenOn(true);
+/* SWIPER */
+const swiper = new Swiper('.swiper',{
+  direction:'horizontal',
+  loop:false,
+  spaceBetween:0,
+});
+
+/* VOICE */
+const mic = document.getElementById("mic");
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if(SpeechRecognition){
+  const recognition = new SpeechRecognition();
+  recognition.lang="es-ES";
+  recognition.continuous=false;
+
+  mic.onclick=()=>{ mic.classList.add("listening"); recognition.start(); }
+
+  recognition.onresult=e=>{
+    const text = e.results[0][0].transcript.toLowerCase();
+    mic.classList.remove("listening");
+    if(text.includes("fútbol")) openApp("com.movistarplus.android");
+    else if(text.includes("youtube") || text.includes("vídeos")) openApp("com.google.android.youtube");
+    else if(text.includes("películas") || text.includes("netflix")) openApp("com.netflix.mediaclient");
+    else speak("No te he entendido");
+  }
+
+  recognition.onend=()=> mic.classList.remove("listening");
+}else{ mic.style.display="none"; }
+
+function speak(text){
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang="es-ES"; speechSynthesis.speak(u);
 }
 </script>
 
